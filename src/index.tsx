@@ -1,19 +1,55 @@
 import React from 'react';
-import ReactDOM from 'react-dom/client';
+import ReactDOM from 'react-dom';
+import { BrowserRouter as Router, Routes, Route, BrowserRouter } from "react-router-dom";
+import { Container } from '@material-ui/core';
+import { createTheme, responsiveFontSizes } from '@material-ui/core/styles';
+import { ThemeProvider } from '@material-ui/styles';
+import indigo from '@material-ui/core/colors/indigo';
+
+import 'typeface-roboto';
+import 'typeface-lobster';
 import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
 
-const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
-);
-root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
-);
+import Contacts from './components/Contacts';
+import AddEditContact from './components/AddEditContact';
+import NotFound from './components/NotFound';
+import * as serviceWorker from './serviceWorker';
+import { upsertContact, getContactBySlug } from './storage';
+import { slugify } from './utils';
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+const theme = createTheme({
+  typography: {
+    h1: {
+      fontSize: '4rem',
+      fontFamily: 'lobster',
+      textAlign: 'center',
+      color: '#3F00FF',
+      letterSpacing: '0.3rem',
+      margin: '50px 0',
+    },
+  },
+  palette: {
+    primary: indigo
+  }
+});
+
+function AppRouter(): JSX.Element {
+  return (
+    <ThemeProvider theme={responsiveFontSizes(theme)}>
+      <Container maxWidth="md">
+        <BrowserRouter>
+          <Routes>
+          <Route path="/" element={<Contacts />} />
+          <Route path="/add" element={<AddEditContact />} />
+            <Route path="/edit/:id" element={<AddEditContact />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </BrowserRouter>
+      </Container>
+    </ThemeProvider>
+  );
+}
+
+ReactDOM.render(<AppRouter />, document.getElementById('root'));
+
+serviceWorker.unregister();

@@ -15,6 +15,7 @@
     "@types/node": "^16.18.41",
     "@types/react": "^18.2.20",
     "@types/react-dom": "^18.2.7",
+    "gh-pages": "^6.0.0",
     "graphql": "^16.8.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -25,9 +26,12 @@
     "typeface-lobster": "^0.0.72",
     "typeface-roboto": "^0.0.75",
     "typescript": "^4.9.5",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "why": "^0.6.2"
   },
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -b master -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
@@ -49,6 +53,18 @@
       "last 1 chrome version",
       "last 1 firefox version",
       "last 1 safari version"
-    ]
-  }
+    ],
+    "homepage": "https://officialrama.github.io"
+  },
+  "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11"
+  },
+  "presets": [
+    "@babel/preset-env",
+    "@babel/preset-react"
+  ],
+  "plugins": [
+    "@babel/plugin-proposal-private-methods",
+    "@babel/plugin-proposal-private-property-in-object"
+  ]
 }
